@@ -56,6 +56,12 @@ def calculate_gravitational_force(body_list, G) :
 
     return force_matrix
 
+def calculate_gravitational_potential(body_list, G) :
+
+    N = len(body_list)
+    separation_matrix = calculate_body_separation(body_list)
+
+
 
 def oscillations(pos_list, dt) :
     """
