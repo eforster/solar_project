@@ -51,24 +51,16 @@ def calculate_gravitational_force(body_list, G) :
                 force_matrix[i, j] = 0
 
             else:
-                force_matrix[i, j] = - G * body_list[i].mass * body_list[j].mass * (separation_matrix[i, j] / (np.mod(separation_matrix[i, j]) ** 3))
+                force_matrix[i, j] = - G * body_list[i].mass * body_list[j].mass * (separation_matrix[i, j] / (modulus_sep_matrix ** 3))
                 force_matrix[j, i] = - force_matrix[i, j]  # Applies Newton's 3rd Law to reduce computing time
 
     return force_matrix
 
 
-
 def oscillations(pos_list, dt) :
     """
-    Method to calculate the period of the oscillating particle
-    and then obtain the wave-number given by:
+    Method to calculate the period of the oscillating body
 
-    wave-number = 1 / wavelength
-
-    :param pos_list: position list along the time-axis
-    :param dt: time-step for simulation
-
-    :return: wave_number
     """
     wave_peaks = find_peaks(pos_list)                           # Uses scipy.signal find_peaks function to index all peaks
     peak_pos = wave_peaks[0]                                    # Creates an array of the indices of all peaks
@@ -77,14 +69,8 @@ def oscillations(pos_list, dt) :
     second_peak = peak_pos[1]                                   # Second peak
 
     period = (len(pos_list[first_peak : second_peak])) * dt     # Calculates period
-    period_in_seconds = period * 1                # Converts period to seconds
 
-    frequency = 1 / period_in_seconds                           # Units : Hz
-    speed_of_light = 299792458                                  # Units : m/s
-    wavelength = (speed_of_light / frequency) * 100             # Units : m (multiply by 100 to convert to cm) -> cm
-
-    wave_number = 1 / wavelength
-    return wave_number                                          # Units : cm^-1
+    return period
 
 # Begin main code
 def main() :
@@ -178,7 +164,7 @@ def main() :
     pyplot.xlabel('Time : ')
     pyplot.ylabel('Position : ')
     pyplot.plot(time_list)
-    pyplot.plot(time_list )
+    pyplot.plot(time_list)
     pyplot.show()
 
     # Part 6.) Plots body energy to screen
@@ -190,15 +176,6 @@ def main() :
     pyplot.plot(time_list, energy_list)
     pyplot.show()
 
-    # Part 7.) Measures the frequency of oscillations and prints the wave-number and it's inaccuracy to screen
-
-    wave_number = oscillations(position_list, dt)
-    print("Wave-number :", wave_number, "cm ^ -1 .")
-    v_nought = 1525.5847124925656
-    delta_v = wave_number - v_nought
-    wave_number_inaccuracy = delta_v / v_nought
-    print("Wave-number inaccuracy : +/-", wave_number_inaccuracy, "cm ^ -1 .")
-
     # Part 8.) Measures the energy inaccuracy of the simulation and prints it to the screen
 
     initial_energy = energy_list[0]
@@ -209,7 +186,6 @@ def main() :
     energy_inaccuracy = delta_energy / initial_energy
 
     print("Energy inaccuracy : +/-", energy_inaccuracy, "eV ")
-
 
 # Execute main method, but only when directly invoked
 if __name__ == "__main__" :
