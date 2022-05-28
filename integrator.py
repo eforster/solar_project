@@ -5,6 +5,10 @@ where the parameters are read in from a data file
 and passed to the functions that
 calculate force and potential energy.
 
+Using units that make for better understanding of the simulated system.
+
+G = 8.8877 × 10−10 AU^3 M_earth ^ -1 day ^ -2
+
 Author : E Forster, s1639706
 """
 
@@ -14,8 +18,6 @@ import numpy as np
 import matplotlib.pyplot as pyplot
 from scipy.signal import find_peaks
 from body3D import Body3D
-
-# G = 8.8877 × 10−10 AU^3 M_earth ^ -1 day ^ -2
 
 def calculate_body_separation(body_list) :
 
@@ -60,7 +62,6 @@ def calculate_gravitational_potential(body_list, G) :
 
     N = len(body_list)
     separation_matrix = calculate_body_separation(body_list)
-
 
 
 def oscillations(pos_list, dt) :
