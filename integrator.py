@@ -63,10 +63,19 @@ def calculate_gravitational_potential(body_list, G) :
     N = len(body_list)
     separation_matrix = calculate_body_separation(body_list)
 
+    for i in range(N) :
+        for j in range(i + 1, N) :
 
+            modulus_separation_matrix = np.linalg.norm(separation_matrix[i, j])
+
+            g_potential = - G * body_list[i].mass * body_list[j].mass / modulus_separation_matrix
+
+    return g_potential
+
+"""
 def oscillations(pos_list, dt) :
     """
-    Method to calculate the period of the oscillating body
+    #Method to calculate the period of the oscillating body
 
     """
     wave_peaks = find_peaks(pos_list)                           # Uses scipy.signal find_peaks function to index all peaks
@@ -78,6 +87,7 @@ def oscillations(pos_list, dt) :
     period = (len(pos_list[first_peak : second_peak])) * dt     # Calculates period
 
     return period
+"""
 
 # Begin main code
 def main() :
@@ -99,20 +109,58 @@ def main() :
         # Part 1.) Reads in data file from the command line
 
         # Read name of files from command line which needs 3 parts
-        if len(sys.argv) != 3 :
+        if len(sys.argv) != 2 :
 
             # Helpful error message if the format is incorrect
             print("Wrong number of arguments.")
-            print("Usage: " + sys.argv[0] + "<input file>" + "<output file>")
+            print("Usage: " + sys.argv[0] + "<input file>")
             quit()
-        else :
-            outfile_name = sys.argv[2]
 
-            # Open output file
-            outfile = open(outfile_name, "w")
+        else :
 
             line1 = infile.readline()           # Processes line 1 of input file
+            line2 = infile.readline()
+            line2 = line2.split()
 
+            if len(line2) != 2 :
+
+                print("Wrong number of arguments in line 2 of input file, dt and numstep. ")
+
+            else :
+
+                dt = line2[0]
+                numstep = line2[1]
+
+            line3 =  infile.readline()
+            line4 = infile.readline()
+            line4 = line4.split()
+
+            if len(line4) != 2 :
+
+                print("Wrong number of arguments in line 4 of input file, trajectory outfile and energy outfile. ")
+
+            else :
+
+                trajectory_xyz = line4[0]
+                energy_output = line4[1]
+
+            line5 = infile.readline()
+            line6 = infile.readline()
+            line6 = line6.split()
+
+            if len(line6) != 1 :
+
+                print("Wrong number of arguments in line 6 of input file, Body data. ")
+
+            else :
+
+                body_data = line6[0]
+
+            # Open output file
+            trajectories = open(trajectory_xyz, "w")
+            energies = open(energy_output, "w")
+
+            energies.write("Time, Potential Energy, Kinetic Energy, Total Energy \n")
 
     infile.close()
 
@@ -120,40 +168,47 @@ def main() :
 
     time = 0.0
     G = 8.8877 * 10 ** - 10
+    body_list = []
+
+    with open(body_data, "r") as infile :
+
+
+
+
+    for body in range(N) :
+
+        body_list.append(Body3D())
+
 
     # Get initial force
-    force1 = []
-    force2 = - force1
-    energy = []
+    force_matrix = calculate_gravitational_force(body_list, G)
+
 
     # Part 3.) Initialises data lists for plotting later
 
     time_list = [time]
-    position_list = []
-    energy_list = [energy]
+
 
     # Part 4.) Starts a time integration loop
 
     for i in range(numstep) :
 
         # Update body position
-        p1.update_2nd_position(dt, force1)
+
 
         # Update force
-        force1_new = []
-        force2_new = - force1_new
+
 
         # Update body velocity by averaging current and new forces
         
         # Re-define force value
-        force1 = force1_new
-        force2 = force2_new
+
 
         # Increase time
         time += dt
         
         # Output body information
-        energy = p1.kinetic_e()
+
 
 
         # Append information to data lists
@@ -167,13 +222,6 @@ def main() :
 
     # Part 5.) Plots body trajectory to screen
 
-    pyplot.title('Velocity Verlet : Position vs Time')
-    pyplot.xlabel('Time : ')
-    pyplot.ylabel('Position : ')
-    pyplot.plot(time_list)
-    pyplot.plot(time_list)
-    pyplot.show()
-
     # Part 6.) Plots body energy to screen
 
     # Plot body energy to screen
@@ -185,14 +233,14 @@ def main() :
 
     # Part 8.) Measures the energy inaccuracy of the simulation and prints it to the screen
 
-    initial_energy = energy_list[0]
-    max_energy = max(energy_list)
-    min_energy = min(energy_list)
+    initial_energy = total_energy_list[0]
+    max_energy = max(total_energy_list)
+    min_energy = min(total_energy_list)
 
     delta_energy = max_energy - min_energy
     energy_inaccuracy = delta_energy / initial_energy
 
-    print("Energy inaccuracy : +/-", energy_inaccuracy, "eV ")
+    print("Energy inaccuracy : +/-", energy_inaccuracy, "[energy] ")
 
 # Execute main method, but only when directly invoked
 if __name__ == "__main__" :

@@ -1,6 +1,6 @@
 # dt numstep
 1 365
-# initial conditions file
-simple.dat
 # output files
 trajectory.xyz energy_output
+# Body Data
+simple.dat

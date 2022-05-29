@@ -192,8 +192,8 @@ class Body3D(object) :
         for body in body3d_list :
 
             body_velocity = body.vel
-            mass_x_velocity = body_mass * body_velocity
-            total += mass_x_velocity
+            momentum = body_mass * body_velocity
+            total += momentum
             centre_of_mass_velocity = total / total_mass
 
-        return total_mass, centre_of_mass_velocity
+        return centre_of_mass_velocity
