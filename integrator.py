@@ -62,22 +62,23 @@ def calculate_gravitational_potential(body_list, G) :
 
     N = len(body_list)
     separation_matrix = calculate_body_separation(body_list)
+    g_potential = 0
 
     for i in range(N) :
         for j in range(i + 1, N) :
 
             modulus_separation_matrix = np.linalg.norm(separation_matrix[i, j])
 
-            g_potential = - G * body_list[i].mass * body_list[j].mass / modulus_separation_matrix
+            g_potential += - G * body_list[i].mass * body_list[j].mass / modulus_separation_matrix
 
     return g_potential
 
 """
 def oscillations(pos_list, dt) :
-    """
-    #Method to calculate the period of the oscillating body
 
-    """
+    Method to calculate the period of the oscillating body
+
+    
     wave_peaks = find_peaks(pos_list)                           # Uses scipy.signal find_peaks function to index all peaks
     peak_pos = wave_peaks[0]                                    # Creates an array of the indices of all peaks
 
@@ -170,15 +171,14 @@ def main() :
     G = 8.8877 * 10 ** - 10
     body_list = []
 
-    with open(body_data, "r") as infile :
-
-
-
+    bodies = np.genfromtxt(body_data, dtype='str')
+    N = len(bodies)
 
     for body in range(N) :
 
-        body_list.append(Body3D())
-
+        body_list.append(Body3D(label = f"Body_{body}", mass = 1, position = np.zeros(3), velocity = np.zeros(3)))
+        print(body_list)
+        exit()
 
     # Get initial force
     force_matrix = calculate_gravitational_force(body_list, G)

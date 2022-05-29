@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cd764bcd-1799-4772-8dd0-94c152654c75" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/body3D.py" beforeDir="false" afterPath="$PROJECT_DIR$/body3D.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input_parameters" beforeDir="false" afterPath="$PROJECT_DIR$/input_parameters" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/energy_output" beforeDir="false" afterPath="$PROJECT_DIR$/energy_output" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/integrator.py" beforeDir="false" afterPath="$PROJECT_DIR$/integrator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
